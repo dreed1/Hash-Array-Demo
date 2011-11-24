@@ -34,7 +34,7 @@ public class ProbeHash {
 	private int size;
 	private int count;
 	private final int INITIAL_CAPACITY = 1000000;
-	private final int AMOUNT_OF_ENTRIES =999999;
+	private final int AMOUNT_OF_ENTRIES =850000;
 	private final double LOAD_THRESHOLD = 1.01;
 	private final Entry DELETED = new Entry(null, null, 0, 0);
 	public int probes=0;

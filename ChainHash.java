@@ -49,7 +49,7 @@ public class ChainHash {
     int WINDOW_HEIGHT = 1050;
     int BORDER_SIZE = 25;
     int ROW_LENGTH = 1000;
-    int GIF_FRAME_FREQUENCY = 50000; //use ~1k for final values
+    int GIF_FRAME_FREQUENCY = 100000; //use ~1k for final values
 	
 	public ChainHash()
 	{
@@ -491,8 +491,8 @@ public class ChainHash {
         double colorOffset = ((double)255/(double)numGenerations)
                             *((double)this.size/(double)AMOUNT_OF_ENTRIES);
         redValue = 127 + (int)((colorOffset * (double)generation)/2.0);
-        greenValue = 0 + (int)(colorOffset * (double)generation);
-        blueValue = 255 - (int)(colorOffset * (double)generation);
+        greenValue = 255 - (int)((colorOffset * (double)generation));
+        blueValue = 255 - (int)((colorOffset * (double)generation)/2.0);
         
         if(redValue<0)
             redValue =0;
