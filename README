@@ -1,0 +1,30 @@
+Hash Arrays written by Dan Reed
+last updated 11/23/11
+
+
+This is a toy project I wrote for a talk on hash arrays, and using them
+to store sets of ever growing data, like profiles on a webforum or
+social media site.
+
+To compile(from terminal, cli, dos prompt, whatever you want):
+javac *java
+java main
+
+you might want to give the JVM more heap memory:
+java -Xmx1024m main
+
+This program creates an array of a million buckets, then fills the buckets
+using either chain hashing or linear probing to deal with collisions.
+There are 5 included hash methods: java hashCode, SHA-1, MD5, jenkin's hash,
+and a simple ascii summation hash.
+
+With this data, the program creates 3 pictures: a .png showing the results
+of how the array was filled, a .gif detailing the process of filling the
+array, and a companion .png that gives a rough key to decipher what happened.
+
+You can change the gradients, the frames in the .gif, and nearly everything
+about the array. This makes some really interesting images to look at and
+decipher.
+
+Use this however you want, but send me an email at dan@danreed.net if you
+think it's cool. I'd like that.
