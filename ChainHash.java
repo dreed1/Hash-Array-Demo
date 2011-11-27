@@ -39,7 +39,7 @@ public class ChainHash {
 	private int size;
 	private int count;
 	private final int INITIAL_CAPACITY = 1000000;
-	private final int AMOUNT_OF_ENTRIES =1999999;
+	private final int AMOUNT_OF_ENTRIES =1500000;
 	private final double LOAD_THRESHOLD = 2.01;
 	public int probes =0;
 	
@@ -202,10 +202,10 @@ public class ChainHash {
 	//this method is a wrapper class for the 4 hashcode methods I've done
 	public int hash(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException
 	{
-		return hash1(key);
+		//return hash1(key);
 		//return hash2(key);
 		//return hash3(key);
-		//return hash4(key);
+		return hash4(key);
 	}
 	
 	//java hashcode
@@ -325,11 +325,60 @@ public class ChainHash {
                 System.out.println("unsupported encoding exception.");
             }
 	    }
+	    FormulateData();
 	    System.out.println("last generation: " + currentGeneration);
 	    System.out.println("Average chain size: " + (double)AMOUNT_OF_ENTRIES/(double)this.size);
 	    enc.finish();
 	    createPicture("staticChainTest.png");
 	    createPictureKey("staticChainKey.png");
+	}
+	public void FormulateData(){
+	    int emptySpots =0;
+	    int cleanSpots=0;
+	    int dirtySpots=0;
+	    
+	    int generations = (int)((double)AMOUNT_OF_ENTRIES/(double)GIF_FRAME_FREQUENCY)+1;
+	    int[] cleanAdds = new int[generations];
+	    int[] dirtyAdds = new int[generations];
+	    for(int i=0;i<generations;i++){
+	        dirtyAdds[i]=0;
+	        cleanAdds[i]=0;
+	    }
+	    for(int i=0;i<this.size;i++){
+	        if(table[i]!=null){
+	            if(table[i].collide==0){
+	                cleanSpots++;
+	                cleanAdds[table[i].generation]++;
+                }
+	            else if(table[i].collide<generations){
+	                dirtyAdds[table[i].collide]++;
+	                dirtySpots++;
+                }
+	            else{
+	                dirtyAdds[generations-1]++;
+	                dirtySpots++;
+                }
+	        }
+	        else
+	            emptySpots++;
+	    }
+	    //System.out.println("Load threshold (size/capacity):" + (double)AMOUNT_OF_ENTRIES/(double)this.size);
+	    System.out.println("Clean additions: " + cleanSpots);
+	    System.out.println("% of total spots clean: " + 100.0*(double)cleanSpots/(double)this.size);
+	    //System.out.println("% of ideal clean spots: " + 100.0*(double)cleanSpots/((double)AMOUNT_OF_ENTRIES));
+	    System.out.println("Dirty additions: " + dirtySpots);
+	    System.out.println("% of total spots dirty: " + 100.0*(double)dirtySpots/(double)this.size);
+	    //System.out.println("% of ideal dirty spots: " + 100.0*(double)dirtySpots/((double)AMOUNT_OF_ENTRIES));
+	    System.out.println("Empty Spots:" + emptySpots);
+	    System.out.println("% of total spots empty: " + 100.0*(double)emptySpots/(double)this.size);
+	    //System.out.println("% of ideal empty spots: " + 100.0*(double)emptySpots/((double)this.size-(double)AMOUNT_OF_ENTRIES));
+	    for(int i=1;i<=generations;i++){
+	        System.out.println("chains " + i + " entries long: " + dirtyAdds[i-1]);
+	    }
+	    System.out.println("Generation population:" + (double)AMOUNT_OF_ENTRIES/(double)generations);
+	    for(int i=1;i<=generations;i++){
+	        System.out.println(" clean generation " + i + " members: " + cleanAdds[i-1]);
+	    }
 	}
 	public void createPicture(String filename){
         // Create an image to save
